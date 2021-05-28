@@ -2,14 +2,14 @@
   {
     "adaptor": "firebase",
     "firebase": {
-      "apiKey": "AIzaSyC9ihVFfiGHXWcaml1KxnVKsAKgq-susjk",
-      "authDomain": "pareto-chart-high-charts.firebaseapp.com",
-      "databaseURL": "https://pareto-chart-high-charts-default-rtdb.firebaseio.com",
-      "projectId": "pareto-chart-high-charts",
-      "storageBucket": "pareto-chart-high-charts.appspot.com",
-      "messagingSenderId": "87887500643",
-      "appId": "1:87887500643:web:f2168433638b9d76816f56",
-      "measurementId": "G-1R8K65Z4CN"
+      "apiKey": "AIzaSyB_LYIn7AcWRJRHuHQqNRPY67B1IoPs3Bs",
+      "authDomain": "histgramhighcharts.firebaseapp.com",
+      "databaseURL": "https://histgramhighcharts-default-rtdb.firebaseio.com",
+      "projectId": "histgramhighcharts",
+      "storageBucket": "histgramhighcharts.appspot.com",
+      "messagingSenderId": "484947415965",
+      "appId": "1:484947415965:web:40e3e8f48b53df74cd9574",
+      "measurementId": "G-KSWZYMPHL8"
     },
     "limit": 1000,
     "ref": "/",
