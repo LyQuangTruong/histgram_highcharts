@@ -1,89 +1,97 @@
 var d3 = require("d3");
 var Highcharts = require("highcharts");
-require("highcharts/modules/pareto")(Highcharts);
+require("highcharts/modules/histogram-bellcurve")(Highcharts);
+var moment = require("moment");
 var colData = [];
 var categoryX = [];
 var seriesData = [];
 
-ParetoChartHighChart.defaultSettings = {
+
+
+HistgramHighCharts.defaultSettings = {
   HorizontalAxis: "value",
-  Legend: "reason",
   Timestamp: "ts",
-  Title: "Pareto Chart high charts",
+  Title: "Histgram high charts",
 };
 
-ParetoChartHighChart.settings = EnebularIntelligence.SchemaProcessor(
+HistgramHighCharts.settings = EnebularIntelligence.SchemaProcessor(
   [
     {
       type: "text",
       name: "Title",
     },
   ],
-  ParetoChartHighChart.defaultSettings
+  HistgramHighCharts.defaultSettings
 );
 
-function createParetoChartHighChart(that) {
+function createHistgramHighCharts(that) {
   if (seriesData != []) seriesData = [];
   if (categoryX != []) categoryX = [];
   ConvertDataAPI(that);
-  that.paretoChartHighChartC3 = Highcharts.chart("root", {
-    chart: {
-      renderTo: "root",
-      type: "column",
-    },
+  that.histgramHighChartsC3 = Highcharts.chart("root", {
     title: {
-      text: that.settings.Title,
+      text: "Highcharts Histogram",
     },
-    tooltip: {
-      shared: true,
-    },
-    xAxis: {
-      categories: categoryX,
-      crosshair: true,
-    },
-    yAxis: [
+
+    xAxis: [
       {
-        title: {
-          text: "value",
-        },
+        title: { text: "Data" },
+        alignTicks: false,
       },
       {
-        title: {
-          text: "",
-        },
-        minPadding: 0,
-        maxPadding: 0,
-        max: 100,
-        min: 0,
+        title: { text: "Histogram" },
+        alignTicks: false,
         opposite: true,
-        labels: {
-          format: "{value}%",
-        },
       },
     ],
-    series: [
+
+    yAxis: [
       {
-        type: "pareto",
-        name: "Pareto",
-        yAxis: 1,
-        zIndex: 10,
-        baseSeries: 1,
-        tooltip: {
-          valueDecimals: 2,
-          valueSuffix: "%",
-        },
+        title: { text: "Data" },
       },
       {
-        name: that.settings.Legend,
-        type: "column",
-        zIndex: 2,
+        title: { text: "Histogram" },
+        opposite: true,
+      },
+    ],
+
+    plotOptions: {
+      histogram: {
+        accessibility: {
+          pointDescriptionFormatter: function (point) {
+            var ix = point.index + 1,
+              x1 = point.x.toFixed(3),
+              x2 = point.x2.toFixed(3),
+              val = point.y;
+            return ix + ". " + x1 + " to " + x2 + ", " + val + ".";
+          },
+        },
+      },
+    },
+
+    series: [
+      {
+        name: "Histogram",
+        type: "histogram",
+        xAxis: 1,
+        yAxis: 1,
+        baseSeries: "s1",
+        zIndex: -1,
+      },
+      {
+        name: "Data",
+        type: "scatter",
         data: seriesData,
+        id: "s1",
+        marker: {
+          radius: 1.5,
+        },
       },
     ],
   });
 }
 
-function ParetoChartHighChart(settings, options) {
+function HistgramHighCharts(settings, options) {
   var that = this;
   this.el = window.document.createElement("div");
   this.el.id = "chart";
@@ -100,11 +108,13 @@ function ParetoChartHighChart(settings, options) {
   this.margin = { top: 20, right: 80, bottom: 30, left: 50 };
 
   setTimeout(function () {
-    createParetoChartHighChart(that);
+    createHistgramHighCharts(that);
   }, 100);
 }
 
-ParetoChartHighChart.prototype.addData = function (data) {
+HistgramHighCharts.prototype.addData = function (data) {
+  console.log("data");
+  console.log("data", data);
   var that = this;
   function fireError(err) {
     if (that.errorCallback) {
@@ -116,24 +126,14 @@ ParetoChartHighChart.prototype.addData = function (data) {
 
   if (data instanceof Array) {
     var value = this.settings.HorizontalAxis;
-    var legend = this.settings.Legend;
     var ts = this.settings.Timestamp;
 
     this.filteredData = data
       .filter((d) => {
-        let hasLabel = d.hasOwnProperty(legend);
-        const dLabel = d[legend];
-        if (typeof dLabel !== "string") {
-          fireError("Legend is not a string");
-          hasLabel = false;
-        }
-        return hasLabel;
-      })
-      .filter((d) => {
         let hasLabel = d.hasOwnProperty(value);
         const dLabel = d[value];
         if (typeof dLabel !== "string" && typeof dLabel !== "number") {
-          fireError("HorizontalAxis is not a string or number");
+          fireError("VerticalAxis is not a string or number");
           hasLabel = false;
         }
         return hasLabel;
@@ -141,33 +141,37 @@ ParetoChartHighChart.prototype.addData = function (data) {
       .filter((d) => {
         let hasTs = d.hasOwnProperty(ts);
         if (isNaN(d[ts])) {
-          fireError("Timestamp is not a number");
+          fireError("timestamp is not a number");
           hasTs = false;
         }
         return hasTs;
       })
       .sort((a, b) => b.value - a.value);
+
+    console.log(this.filteredData);
+
     if (this.filteredData.length === 0) {
       return;
     }
+
     this.data = d3
       .nest()
       .key(function (d) {
-        return d[legend];
+        return d[ts];
       })
       .entries(this.filteredData)
-      // .sort(function (a, b) {
-      //   if (a.key < b.key) return -1;
-      //   if (a.key > b.key) return 1;
-      //   return 0;
-      // });
+      .sort(function (a, b) {
+        if (a.key < b.key) return -1;
+        if (a.key > b.key) return 1;
+        return 0;
+      });
     this.convertData();
   } else {
     fireError("no data");
   }
 };
 
-ParetoChartHighChart.prototype.clearData = function () {
+HistgramHighCharts.prototype.clearData = function () {
   this.data = {};
   colData = [];
   seriesData = [];
@@ -175,7 +179,7 @@ ParetoChartHighChart.prototype.clearData = function () {
   this.refresh();
 };
 
-ParetoChartHighChart.prototype.convertData = function () {
+HistgramHighCharts.prototype.convertData = function () {
   colData = this.data;
   this.refresh();
 };
@@ -183,39 +187,22 @@ ParetoChartHighChart.prototype.convertData = function () {
 function ConvertDataAPI(that) {
   categoryX = [];
   seriesData = [];
-  let data = [];
   colData.forEach(function (val, index) {
     for (var i = 0; i < val.values.length; i++) {
-			data.push({
-				key: colData[index]["values"][i]["value"],
-				value: {
-					value: colData[index]["values"][i]["value"],
-					reason: colData[index]["values"][i]["reason"]
-				}
-			})
-      // seriesData.push(colData[index]["values"][i]["value"]);
-      // categoryX.push(colData[index]["values"][i]["reason"]);
+      seriesData.push(colData[index]["values"][i]["value"]);
+      categoryX.push(colData[index]["values"][i]["ts"]);
     }
   });
-	if (data && data.length > 0) {
-		data = data.sort( (a, b) => {
-			if (a.key < b.key) return 1;
-			if (a.key > b.key) return -1;
-			return 0;
-		})
-		data.forEach(item => {
-			categoryX.push(item.value.reason);
-			seriesData.push(item.value.value);
-		});
-	}
+  console.log("seriesData", seriesData);
+  console.log("colData", colData);
 }
 
-ParetoChartHighChart.prototype.resize = function (options) {
+HistgramHighCharts.prototype.resize = function (options) {
   this.width = options.width;
   this.height = options.height - 50;
 };
 
-ParetoChartHighChart.prototype.refresh = function () {
+HistgramHighCharts.prototype.refresh = function () {
   var that = this;
 
   ConvertDataAPI(that);
@@ -224,76 +211,79 @@ ParetoChartHighChart.prototype.refresh = function () {
   if (this.axisY) this.axisY.remove();
   if (this.yText) this.yText.remove();
 
-  if (that.paretoChartHighChartC3) {
-    that.barChartHighChartC3 = Highcharts.chart("root", {
-      chart: {
-        renderTo: "root",
-        type: "column",
-      },
+  if (that.histgramHighChartsC3) {
+    that.histgramHighChartsC3 = Highcharts.chart("root", {
       title: {
-        text: that.settings.Title,
+        text: "Highcharts Histogram",
       },
-      tooltip: {
-        shared: true,
-      },
-      xAxis: {
-        categories: categoryX,
-        crosshair: true,
-      },
-      yAxis: [
+
+      xAxis: [
         {
-          title: {
-            text: "value",
-          },
+          title: { text: "Data" },
+          alignTicks: false,
         },
         {
-          title: {
-            text: "",
-          },
-          minPadding: 0,
-          maxPadding: 0,
-          max: 100,
-          min: 0,
+          title: { text: "Histogram" },
+          alignTicks: false,
           opposite: true,
-          labels: {
-            format: "{value}%",
-          },
         },
       ],
-      series: [
+
+      yAxis: [
         {
-          type: "pareto",
-          name: "Pareto",
-          yAxis: 1,
-          zIndex: 10,
-          baseSeries: 1,
-          tooltip: {
-            valueDecimals: 2,
-            valueSuffix: "%",
-          },
+          title: { text: "Data" },
         },
         {
-          name: that.settings.Legend,
-          type: "column",
-          zIndex: 2,
+          title: { text: "Histogram" },
+          opposite: true,
+        },
+      ],
+
+      plotOptions: {
+        histogram: {
+          accessibility: {
+            pointDescriptionFormatter: function (point) {
+              var ix = point.index + 1,
+                x1 = point.x.toFixed(3),
+                x2 = point.x2.toFixed(3),
+                val = point.y;
+              return ix + ". " + x1 + " to " + x2 + ", " + val + ".";
+            },
+          },
+        },
+      },
+
+      series: [
+        {
+          name: "Histogram",
+          type: "histogram",
+          xAxis: 1,
+          yAxis: 1,
+          baseSeries: "s1",
+          zIndex: -1,
+        },
+        {
+          name: "Data",
+          type: "scatter",
           data: seriesData,
+          id: "s1",
+          marker: {
+            radius: 1.5,
+          },
         },
       ],
     });
   }
 };
 
-ParetoChartHighChart.prototype.onError = function (errorCallback) {
+HistgramHighCharts.prototype.onError = function (errorCallback) {
   this.errorCallback = errorCallback;
 };
 
-ParetoChartHighChart.prototype.getEl = function () {
+HistgramHighCharts.prototype.getEl = function () {
   return this.el;
 };
 
-window.EnebularIntelligence.register(
-  "paretoChartHighChart",
-  ParetoChartHighChart
-);
+window.EnebularIntelligence.register("histgramHighCharts", HistgramHighCharts);
 
-module.exports = ParetoChartHighChart;
+module.exports = HistgramHighCharts;
