@@ -1,0 +1,53 @@
+{
+  "defaultSettings": {
+    "HorizontalAxis": "value",
+    "Legend": "reason",
+    "Timestamp": "ts",
+    "Title": "Pareto Chart high charts"
+  },
+  "sampleData": [
+    {
+      "reason": "よごれ",
+      "ts": 1622097522686,
+      "value": 150
+    },
+    {
+      "reason": "キズ",
+      "ts": 1622097522686,
+      "value": 269
+    },
+    {
+      "reason": "ホコリ",
+      "ts": 1622097522686,
+      "value": 93
+    },
+    {
+      "reason": "へこみ",
+      "ts": 1622097522686,
+      "value": 56
+    },
+    {
+      "reason": "よごれ",
+      "ts": 1622097523781,
+      "value": 29
+    }
+  ],
+  "settingSchema": [
+    {
+      "type": "key",
+      "name": "HorizontalAxis"
+    },
+    {
+      "type": "key",
+      "name": "Legend"
+    },
+    {
+      "type": "text",
+      "name": "Timestamp"
+    },
+    {
+      "type": "text",
+      "name": "Title"
+    }
+  ]
+}
