@@ -1,4 +1,4 @@
-### Line chart ###
-This is an infomotion Line chart template. 
+### HISTGRAM CHART ###
+This is an infomotion histgram chart (Highcharts) template. 
 
 Please run npm install for the correct dependencies.

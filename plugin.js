@@ -1,12 +1,9 @@
 var d3 = require("d3");
 var Highcharts = require("highcharts");
 require("highcharts/modules/histogram-bellcurve")(Highcharts);
-var moment = require("moment");
 var colData = [];
 var categoryX = [];
 var seriesData = [];
-
-
 
 HistgramHighCharts.defaultSettings = {
   HorizontalAxis: "value",
@@ -113,8 +110,6 @@ function HistgramHighCharts(settings, options) {
 }
 
 HistgramHighCharts.prototype.addData = function (data) {
-  console.log("data");
-  console.log("data", data);
   var that = this;
   function fireError(err) {
     if (that.errorCallback) {
@@ -133,7 +128,7 @@ HistgramHighCharts.prototype.addData = function (data) {
         let hasLabel = d.hasOwnProperty(value);
         const dLabel = d[value];
         if (typeof dLabel !== "string" && typeof dLabel !== "number") {
-          fireError("VerticalAxis is not a string or number");
+          fireError("HorizontalAxis is not a string or number");
           hasLabel = false;
         }
         return hasLabel;
@@ -141,14 +136,12 @@ HistgramHighCharts.prototype.addData = function (data) {
       .filter((d) => {
         let hasTs = d.hasOwnProperty(ts);
         if (isNaN(d[ts])) {
-          fireError("timestamp is not a number");
+          fireError("Timestamp is not a number");
           hasTs = false;
         }
         return hasTs;
       })
       .sort((a, b) => b.value - a.value);
-
-    console.log(this.filteredData);
 
     if (this.filteredData.length === 0) {
       return;
@@ -193,8 +186,6 @@ function ConvertDataAPI(that) {
       categoryX.push(colData[index]["values"][i]["ts"]);
     }
   });
-  console.log("seriesData", seriesData);
-  console.log("colData", colData);
 }
 
 HistgramHighCharts.prototype.resize = function (options) {

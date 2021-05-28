@@ -1,7 +1,6 @@
 {
   "defaultSettings": {
     "HorizontalAxis": "value",
-    "Legend": "reason",
     "Timestamp": "ts",
     "Title": "Pareto Chart high charts"
   },
