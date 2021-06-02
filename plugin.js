@@ -27,7 +27,7 @@ function createHistgramHighCharts(that) {
   ConvertDataAPI(that);
   that.histgramHighChartsC3 = Highcharts.chart("root", {
     title: {
-      text: "Highcharts Histogram",
+      text: that.settings.Title,
     },
 
     xAxis: [
@@ -205,7 +205,7 @@ HistgramHighCharts.prototype.refresh = function () {
   if (that.histgramHighChartsC3) {
     that.histgramHighChartsC3 = Highcharts.chart("root", {
       title: {
-        text: "Highcharts Histogram",
+        text: that.settings.Title,
       },
 
       xAxis: [
