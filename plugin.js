@@ -178,8 +178,6 @@ function ConvertDataAPI(that) {
       categoryX.push(colData[index]["values"][i]["ts"]);
     }
   });
-  console.log("categoryX", categoryX);
-  console.log("seriesData", seriesData);
 }
 
 HistgramHighCharts.prototype.resize = function (options) {
