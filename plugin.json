@@ -2,7 +2,7 @@
   "defaultSettings": {
     "HorizontalAxis": "value",
     "Timestamp": "ts",
-    "Title": "Pareto Chart high charts"
+    "Title": "Histgram high charts"
   },
   "sampleData": [
     {
