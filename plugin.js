@@ -32,39 +32,39 @@ function createHistgramHighCharts(that) {
 
     xAxis: [
       {
-        title: { text: "Histogram" },
-        alignTicks: false,
+        title: { text: "" },
+        // alignTicks: false,
       },
       {
         title: { text: "Histogram" },
-        alignTicks: false,
-        opposite: false,
+        // alignTicks: false,
+        // opposite: false,
       },
     ],
 
     yAxis: [
       {
-        title: { text: "Histogram" },
+        title: { text: "" },
       },
       {
-        title: { text: "Histogram" },
+        title: { text: "" },
         opposite: false,
       },
     ],
 
-    // plotOptions: {
-    //   histogram: {
-    //     accessibility: {
-    //       pointDescriptionFormatter: function (point) {
-    //         var ix = point.index + 1,
-    //           x1 = point.x.toFixed(3),
-    //           x2 = point.x2.toFixed(3),
-    //           val = point.y;
-    //         return ix + ". " + x1 + " to " + x2 + ", " + val + ".";
-    //       },
-    //     },
-    //   },
-    // },
+    plotOptions: {
+      histogram: {
+        accessibility: {
+          pointDescriptionFormatter: function (point) {
+            var ix = point.index + 1,
+              x1 = point.x.toFixed(3),
+              x2 = point.x2.toFixed(3),
+              val = point.y;
+            return ix + ". " + x1 + " to " + x2 + ", " + val + ".";
+          },
+        },
+      },
+    },
 
     series: [
       {
@@ -202,19 +202,19 @@ HistgramHighCharts.prototype.refresh = function () {
 
       xAxis: [
         {
-          title: { text: "Histogram" },
-          alignTicks: false,
+          title: { text: "" },
+          //alignTicks: false,
         },
         {
           title: { text: "Histogram" },
-          alignTicks: false,
-          opposite: false,
+          // alignTicks: false,
+          // opposite: false,
         },
       ],
 
       yAxis: [
         {
-          title: { text: "Histogram" },
+          title: { text: "" },
         },
         {
           title: { text: "Histogram" },
@@ -222,19 +222,19 @@ HistgramHighCharts.prototype.refresh = function () {
         },
       ],
 
-      // plotOptions: {
-      //   histogram: {
-      //     accessibility: {
-      //       pointDescriptionFormatter: function (point) {
-      //         var ix = point.index + 1,
-      //           x1 = point.x.toFixed(3),
-      //           x2 = point.x2.toFixed(3),
-      //           val = point.y;
-      //         return ix + ". " + x1 + " to " + x2 + ", " + val + ".";
-      //       },
-      //     },
-      //   },
-      // },
+      plotOptions: {
+        histogram: {
+          accessibility: {
+            pointDescriptionFormatter: function (point) {
+              var ix = point.index + 1,
+                x1 = point.x.toFixed(3),
+                x2 = point.x2.toFixed(3),
+                val = point.y;
+              return ix + ". " + x1 + " to " + x2 + ", " + val + ".";
+            },
+          },
+        },
+      },
 
       series: [
         {
