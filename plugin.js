@@ -74,15 +74,7 @@ function createHistgramHighCharts(that) {
         yAxis: 1,
         baseSeries: "s1",
         zIndex: -1,
-      },
-      {
-        name: "Data",
-        type: "scatter",
         data: seriesData,
-        id: "s1",
-        marker: {
-          radius: 1.5,
-        },
       },
     ],
   });
@@ -186,6 +178,8 @@ function ConvertDataAPI(that) {
       categoryX.push(colData[index]["values"][i]["ts"]);
     }
   });
+  console.log("categoryX", categoryX);
+  console.log("seriesData", seriesData);
 }
 
 HistgramHighCharts.prototype.resize = function (options) {
@@ -252,15 +246,7 @@ HistgramHighCharts.prototype.refresh = function () {
           yAxis: 1,
           baseSeries: "s1",
           zIndex: -1,
-        },
-        {
-          name: "Data",
-          type: "scatter",
           data: seriesData,
-          id: "s1",
-          marker: {
-            radius: 1.5,
-          },
         },
       ],
     });
