@@ -32,6 +32,10 @@ function createHistgramHighCharts(that) {
 
     xAxis: [
       {
+        title: { text: "Data" },
+        alignTicks: false,
+      },
+      {
         title: { text: "Histogram" },
         alignTicks: false,
         opposite: true,
@@ -39,6 +43,9 @@ function createHistgramHighCharts(that) {
     ],
 
     yAxis: [
+      {
+        title: { text: "Data" },
+      },
       {
         title: { text: "Histogram" },
         opposite: true,
