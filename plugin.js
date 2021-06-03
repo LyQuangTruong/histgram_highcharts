@@ -9,6 +9,7 @@ HistgramHighCharts.defaultSettings = {
   HorizontalAxis: "value",
   Timestamp: "ts",
   Title: "Histgram high charts",
+  Legend: "category",
 };
 
 HistgramHighCharts.settings = EnebularIntelligence.SchemaProcessor(
@@ -102,6 +103,7 @@ function HistgramHighCharts(settings, options) {
 }
 
 HistgramHighCharts.prototype.addData = function (data) {
+  console.log("data", data);
   var that = this;
   function fireError(err) {
     if (that.errorCallback) {
