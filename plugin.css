@@ -220,3 +220,7 @@ ul.list-group {
   transform: translate(60px,130px);
   list-style-type: none;
 }
+
+.highcharts-scatter-series{
+  display: none;
+}

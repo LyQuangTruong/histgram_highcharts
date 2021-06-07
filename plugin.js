@@ -34,23 +34,30 @@ function createHistgramHighCharts(that) {
     xAxis: [
       {
         title: { text: "" },
-        // alignTicks: false,
+        labels:{
+          enabled:false//default is true
+        },
+        visible:false,
+        opposite: true,
+        //alignTicks: false,
       },
       {
-        title: { text: "Histogram" },
+        title: { text: "Data" },
+        opposite: false,
         // alignTicks: false,
-        // opposite: false,
       },
     ],
 
     yAxis: [
       {
         title: { text: "" },
-
+        labels:{
+          enabled:false//default is true
+        }
       },
       {
         title: { text: "" },
-        opposite: false,
+        opposite: true,
       },
     ],
 
@@ -70,14 +77,22 @@ function createHistgramHighCharts(that) {
 
     series: [
       {
-        name: "Histogram",
-        type: "histogram",
+        name: 'Histogram',
+        type: 'histogram',
         xAxis: 1,
         yAxis: 1,
-        baseSeries: "s1",
-        zIndex: -1,
+        baseSeries: 's1',
+        zIndex: -1
+      }, 
+      {
+        name: 'Data',
+        type: 'scatter',
         data: seriesData,
-      },
+        id: 's1',
+        marker: {
+            radius: 1.5
+        }
+      }
     ],
   });
 }
@@ -104,7 +119,6 @@ function HistgramHighCharts(settings, options) {
 }
 
 HistgramHighCharts.prototype.addData = function (data) {
-  console.log("data", data);
   var that = this;
   function fireError(err) {
     if (that.errorCallback) {
@@ -117,6 +131,17 @@ HistgramHighCharts.prototype.addData = function (data) {
   if (data instanceof Array) {
     var value = this.settings.HorizontalAxis;
     var ts = this.settings.Timestamp;
+    // let dataConvert = [];
+    // data.forEach(item=>{
+    //   if (item[ts] != undefined && item[ts] != null) {
+    //     let index = dataConvert.findIndex(ele => ele[ts] == item[ts])
+    //     if (index != -1) {
+    //       dataConvert[index][value] += item[value]
+    //     } else {
+    //       dataConvert.push(item)
+    //     }
+    //   }
+    // })
 
     this.filteredData = data
       .filter((d) => {
@@ -142,17 +167,18 @@ HistgramHighCharts.prototype.addData = function (data) {
       return;
     }
 
-    this.data = d3
-      .nest()
-      .key(function (d) {
-        return d[ts];
-      })
-      .entries(this.filteredData)
-      .sort(function (a, b) {
-        if (a.key < b.key) return -1;
-        if (a.key > b.key) return 1;
-        return 0;
-      });
+    // this.data = d3
+    //   .nest()
+    //   .key(function (d) {
+    //     return d[ts];
+    //   })
+    //   .entries(this.filteredData)
+    //   .sort(function (a, b) {
+    //     if (a.key < b.key) return -1;
+    //     if (a.key > b.key) return 1;
+    //     return 0;
+    //   });
+    this.data = this.filteredData
     this.convertData();
   } else {
     fireError("no data");
@@ -175,11 +201,17 @@ HistgramHighCharts.prototype.convertData = function () {
 function ConvertDataAPI(that) {
   categoryX = [];
   seriesData = [];
+  var value = that.settings.HorizontalAxis;
+  var ts = that.settings.Timestamp;
+  // colData.forEach(function (val, index) {
+  //   for (var i = 0; i < val.values.length; i++) {
+  //     seriesData.push(colData[index]["values"][i][value]);
+  //     categoryX.push(colData[index]["values"][i][ts]);
+  //   }
+  // });
   colData.forEach(function (val, index) {
-    for (var i = 0; i < val.values.length; i++) {
-      seriesData.push(colData[index]["values"][i]["value"]);
-      categoryX.push(colData[index]["values"][i]["ts"]);
-    }
+    seriesData.push(val[value]);
+    categoryX.push(val[ts]);
   });
 }
 
@@ -206,21 +238,29 @@ HistgramHighCharts.prototype.refresh = function () {
       xAxis: [
         {
           title: { text: "" },
+          labels:{
+            enabled:false//default is true
+          },
+          visible:false,
+          opposite: true,
           //alignTicks: false,
         },
         {
-          title: { text: "Histogram" },
+          title: { text: "Data" },
+          opposite: false,
           // alignTicks: false,
-          // opposite: false,
         },
       ],
 
       yAxis: [
         {
           title: { text: "" },
+          labels:{
+            enabled:false//default is true
+          }
         },
         {
-          title: { text: "Histogram" },
+          title: { text: "" },
           opposite: true,
         },
       ],
@@ -241,14 +281,22 @@ HistgramHighCharts.prototype.refresh = function () {
 
       series: [
         {
-          name: "Histogram",
-          type: "histogram",
+          name: 'Histogram',
+          type: 'histogram',
           xAxis: 1,
           yAxis: 1,
-          baseSeries: "s1",
-          zIndex: -1,
+          baseSeries: 's1',
+          zIndex: -1
+        }, 
+        {
+          name: 'Data',
+          type: 'scatter',
           data: seriesData,
-        },
+          id: 's1',
+          marker: {
+              radius: 1.5
+          }
+        }
       ],
     });
   }
