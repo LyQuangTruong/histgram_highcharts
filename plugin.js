@@ -46,6 +46,7 @@ function createHistgramHighCharts(that) {
     yAxis: [
       {
         title: { text: "" },
+
       },
       {
         title: { text: "" },
@@ -220,7 +221,7 @@ HistgramHighCharts.prototype.refresh = function () {
         },
         {
           title: { text: "Histogram" },
-          opposite: false,
+          opposite: true,
         },
       ],
 
