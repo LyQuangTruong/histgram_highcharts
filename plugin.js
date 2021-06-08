@@ -10,6 +10,7 @@ HistgramHighCharts.defaultSettings = {
   Timestamp: "ts",
   Title: "Histgram high charts",
   Legend: "value",
+  Value: "value",
 };
 
 HistgramHighCharts.settings = EnebularIntelligence.SchemaProcessor(
@@ -20,7 +21,7 @@ HistgramHighCharts.settings = EnebularIntelligence.SchemaProcessor(
     },
     {
       type: "text",
-      name: "Legend",
+      name: "Value",
     },
   ],
   HistgramHighCharts.defaultSettings
@@ -81,7 +82,7 @@ function createHistgramHighCharts(that) {
 
     series: [
       {
-        name: that.settings.Legend,
+        name: "Histogram",
         type: "histogram",
         xAxis: 1,
         yAxis: 1,
@@ -137,15 +138,15 @@ HistgramHighCharts.prototype.addData = function (data) {
     var ts = this.settings.Timestamp;
     let dataX = [];
     data.forEach((item) => {
-      if (item[that.settings.Legend] != undefined && item[that.settings.Legend] != null) {
+      if (item[that.settings.Value] != undefined && item[that.settings.Value] != null) {
         dataX.push(item);
       }
     });
 
     this.filteredData = dataX
       .filter((d) => {
-        let hasLabel = d.hasOwnProperty(that.settings.Legend);
-        const dLabel = d[that.settings.Legend];
+        let hasLabel = d.hasOwnProperty(that.settings.Value);
+        const dLabel = d[that.settings.Value];
         if (typeof dLabel !== "string" && typeof dLabel !== "number") {
           fireError("HorizontalAxis is not a string or number");
           hasLabel = false;
@@ -160,7 +161,7 @@ HistgramHighCharts.prototype.addData = function (data) {
         }
         return hasTs;
       })
-      .sort((a, b) => b.value - a.value);
+      .sort((a, b) => b[that.settings.Value] - a[that.settings.Value]);
 
     if (this.filteredData.length === 0) {
       return;
@@ -192,7 +193,7 @@ function ConvertDataAPI(that) {
   var value = that.settings.HorizontalAxis;
   var ts = that.settings.Timestamp;
   colData.forEach(function (val, index) {
-    seriesData.push(val[that.settings.Legend]);
+    seriesData.push(val[that.settings.Value]);
     categoryX.push(val[ts]);
   });
 }
@@ -263,7 +264,7 @@ HistgramHighCharts.prototype.refresh = function () {
 
       series: [
         {
-          name: that.settings.Legend,
+          name: "Histogram",
           type: "histogram",
           xAxis: 1,
           yAxis: 1,

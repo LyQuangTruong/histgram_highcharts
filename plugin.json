@@ -3,6 +3,7 @@
     "HorizontalAxis": "value",
     "Timestamp": "ts",
     "Legend": "value",
+    "Value": "simple",
     "Title": "Histgram high charts"
   },
   "sampleData": [
@@ -2551,6 +2552,10 @@
     {
       "type": "key",
       "name": "Legend"
+    },
+    {
+      "type": "text",
+      "name": "Value"
     },
     {
       "type": "text",
