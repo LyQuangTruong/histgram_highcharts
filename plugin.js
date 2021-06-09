@@ -162,7 +162,7 @@ HistgramHighCharts.prototype.addData = function (data) {
         }
         return hasTs;
       })
-      .sort((a, b) => b[that.settings.Value] - a[that.settings.Value]);
+      .sort((a, b) => b.value - a.value);
 
     if (this.filteredData.length === 0) {
       return;
