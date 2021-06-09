@@ -1,7 +1,6 @@
 {
   "defaultSettings": {
     "Timestamp": "ts",
-    "Legend": "value",
     "Value": "simple",
     "Title": "Histgram high charts"
   },

@@ -8,7 +8,6 @@ var seriesData = [];
 HistgramHighCharts.defaultSettings = {
   Timestamp: "ts",
   Title: "Histgram high charts",
-  Legend: "value",
   Value: "value",
 };
 
