@@ -135,19 +135,19 @@ HistgramHighCharts.prototype.addData = function (data) {
   }
 
   if (data instanceof Array) {
-    var value = this.settings.HorizontalAxis;
+    var value = that.settings.Value;
     var ts = this.settings.Timestamp;
     let dataX = [];
     data.forEach((item) => {
-      if (item[that.settings.Value] != undefined && item[that.settings.Value] != null) {
+      if (item[value] != undefined && item[value] != null) {
         dataX.push(item);
       }
     });
 
     this.filteredData = dataX
       .filter((d) => {
-        let hasLabel = d.hasOwnProperty(that.settings.Value);
-        const dLabel = d[that.settings.Value];
+        let hasLabel = d.hasOwnProperty(value);
+        const dLabel = d[value];
         if (typeof dLabel !== "string" && typeof dLabel !== "number") {
           fireError("HorizontalAxis is not a string or number");
           hasLabel = false;
