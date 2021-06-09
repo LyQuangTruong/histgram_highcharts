@@ -97,6 +97,7 @@ function createHistgramHighCharts(that) {
         marker: {
           radius: 1.5,
         },
+        visible:false
       },
     ],
   });
@@ -279,6 +280,7 @@ HistgramHighCharts.prototype.refresh = function () {
           marker: {
             radius: 1.5,
           },
+          visible:false
         },
       ],
     });
