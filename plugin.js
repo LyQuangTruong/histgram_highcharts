@@ -6,7 +6,6 @@ var categoryX = [];
 var seriesData = [];
 
 HistgramHighCharts.defaultSettings = {
-  HorizontalAxis: "value",
   Timestamp: "ts",
   Title: "Histgram high charts",
   Legend: "value",
