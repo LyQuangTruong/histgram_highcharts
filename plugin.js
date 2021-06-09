@@ -9,6 +9,7 @@ HistgramHighCharts.defaultSettings = {
   Timestamp: "ts",
   Title: "Histgram high charts",
   Value: "value",
+  BinWidth: "0.100"
 };
 
 HistgramHighCharts.settings = EnebularIntelligence.SchemaProcessor(
@@ -21,11 +22,16 @@ HistgramHighCharts.settings = EnebularIntelligence.SchemaProcessor(
       type: "text",
       name: "Value",
     },
+    {
+      type: "text",
+      name: "BinWidth",
+    },
   ],
   HistgramHighCharts.defaultSettings
 );
 
 function createHistgramHighCharts(that) {
+  var binWidth = that.settings.BinWidth
   if (seriesData != []) seriesData = [];
   if (categoryX != []) categoryX = [];
   ConvertDataAPI(that);
@@ -86,6 +92,7 @@ function createHistgramHighCharts(that) {
         yAxis: 1,
         baseSeries: "s1",
         zIndex: -1,
+        binWidth: Number(binWidth),
       },
       {
         name: "Data",
@@ -192,7 +199,7 @@ function ConvertDataAPI(that) {
   var value = that.settings.Value;
   var ts = that.settings.Timestamp;
   colData.forEach(function (val, index) {
-    seriesData.push(val[value]);
+    seriesData.push(Number(val[value].toFixed(3)));
     categoryX.push(val[ts]);
   });
 }
@@ -204,7 +211,7 @@ HistgramHighCharts.prototype.resize = function (options) {
 
 HistgramHighCharts.prototype.refresh = function () {
   var that = this;
-
+  var binWidth = that.settings.BinWidth
   ConvertDataAPI(that);
 
   if (this.axisX) this.axisX.remove();
@@ -269,6 +276,7 @@ HistgramHighCharts.prototype.refresh = function () {
           yAxis: 1,
           baseSeries: "s1",
           zIndex: -1,
+          binWidth: Number(binWidth),
         },
         {
           name: "Data",
