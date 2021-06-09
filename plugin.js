@@ -191,10 +191,10 @@ HistgramHighCharts.prototype.convertData = function () {
 function ConvertDataAPI(that) {
   categoryX = [];
   seriesData = [];
-  var value = that.settings.HorizontalAxis;
+  var value = that.settings.Value;
   var ts = that.settings.Timestamp;
   colData.forEach(function (val, index) {
-    seriesData.push(val[that.settings.Value]);
+    seriesData.push(val[value]);
     categoryX.push(val[ts]);
   });
 }
