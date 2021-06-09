@@ -135,7 +135,7 @@ HistgramHighCharts.prototype.addData = function (data) {
   }
 
   if (data instanceof Array) {
-    var value = that.settings.Value;
+    var value = this.settings.Value;
     var ts = this.settings.Timestamp;
     let dataX = [];
     data.forEach((item) => {
